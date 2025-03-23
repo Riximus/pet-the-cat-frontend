@@ -1,0 +1,35 @@
+<div class="flex flex-col items-center gap-5 mx-5">
+  <div class="flex flex-col gap-2">
+    <input
+      type="file"
+      class="file-input validator"
+      (change)="onFileSelected($event)"
+      required
+      accept="image/png, image/jpeg"
+    />
+    <div class="validator-hint hidden">
+      Enter a valid image: png or jpeg/jpg
+    </div>
+    <button class="btn" [ngClass]="{'btn-disabled': !uploadedImageUrl || errorMessage || !isCat}" type="submit">
+      Submit your cat 🐈
+    </button>
+  </div>
+  <div class="max-w-100 bg-base-200 card-border border-base-300 border-2 rounded-box">
+    <div class="p-5 flex justify-center items-center">
+      <ng-container *ngIf="errorMessage; else imageTemplate">
+        <h1 class="text-3xl">{{ errorMessage }}</h1>
+      </ng-container>
+      <ng-template #imageTemplate>
+        <ng-container *ngIf="uploadedImageUrl; else waitingMessage">
+          <img #catImage [src]="uploadedImageUrl" alt="Uploaded cat" class="max-h-full max-w-full object-contain"/>
+        </ng-container>
+        <ng-template #waitingMessage>
+          <h1 class="text-3xl">Waiting for your cat 🐱‍👓🐱‍👤🐱</h1>
+        </ng-template>
+      </ng-template>
+    </div>
+  </div>
+  <div *ngIf="predictionResultLabel" class="mb-5 text-center">
+    <p class="text-xl"><span class="font-bold">Prediction:</span> {{ predictionResultLabel }}</p>
+  </div>
+</div>
